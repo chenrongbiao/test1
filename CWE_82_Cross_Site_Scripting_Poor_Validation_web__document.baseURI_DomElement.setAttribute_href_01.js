@@ -31,6 +31,7 @@ function good() {
     goodG2B();
 }
 
+
 function goodG2B() {
     let data;
 
