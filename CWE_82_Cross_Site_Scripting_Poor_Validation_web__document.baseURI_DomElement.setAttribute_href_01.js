@@ -1,12 +1,12 @@
 /**
  * @description 最简单的数据流传递过程。
  *
- * @cwe 80
+ * @cwe 82
  * @source document.baseURI
- * @sink DomElement.href
+ * @sink DomElement.setAttribute_href
  * @bad bad
  * @good good
- * @tool fortify: Cross-Site Scripting: DOM;secbrella: SecJS_Cross_Site_Scripting
+ * @tool fortify: Cross-Site Scripting: Poor Validation;secbrella: SecJS_Cross_Site_Scripting
  * @author 周通 z30021988
  */
 
@@ -21,8 +21,8 @@ function bad() {
 
     if (data !== null) {
         let urlParsingNode = document.createElement('a');
-        /* POTENTIAL FLAW: 向一个 Web 浏览器发送未经验证的数据会导致该浏览器执行恶意代码。 */
-        urlParsingNode.href = data;
+        /* POTENTIAL FLAW: 依靠 HTML、XML 或其他类型编码验证用户输入可能会导致浏览器执行恶意代码。 */
+        urlParsingNode.setAttribute('href', encodeURI(data));
     }
 
 }
@@ -30,7 +30,8 @@ function bad() {
 function good() {
     goodG2B();
 }
- 
+
+
 function goodG2B() {
     let data;
 
@@ -38,8 +39,8 @@ function goodG2B() {
 
     if (data !== null) {
         let urlParsingNode = document.createElement('a');
-        /* POTENTIAL FLAW GOOD: 向一个 Web 浏览器发送未经验证的数据会导致该浏览器执行恶意代码。 */
-        urlParsingNode.href = data;
+        /* POTENTIAL FLAW GOOD: 依靠 HTML、XML 或其他类型编码验证用户输入可能会导致浏览器执行恶意代码。 */
+        urlParsingNode.setAttribute('href', encodeURI(data));
     }
 
 }
